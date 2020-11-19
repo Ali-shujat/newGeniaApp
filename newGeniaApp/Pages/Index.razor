@@ -1,0 +1,29 @@
+﻿@page "/"
+
+
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inherits LayoutComponentBase
+
+
+
+<p>
+    @userAuthenticated
+</p>
+
+@code{
+    string userAuthenticated;
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated)
+        {
+            userAuthenticated = $"{ authState.User.Identity.Name} is authenticated.";
+        }
+        else
+        {
+            userAuthenticated = "The user is NOT authenticated.";
+        }
+    }
+} 
